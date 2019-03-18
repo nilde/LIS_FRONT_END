@@ -1,0 +1,34 @@
+{
+  "name": "LIS",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "apsl-react-native-button": "^3.1.1",
+    "react": "16.6.3",
+    "react-native": "0.58.6",
+    "react-native-bottom-bar": "^0.1.4",
+    "react-native-lightbox": "^0.8.0",
+    "react-native-maps": "^0.23.0",
+    "react-native-modal": "^9.0.0",
+    "react-native-photo-view": "^1.5.2",
+    "react-native-responsive-screen": "^1.2.1",
+    "react-native-snap-carousel": "^3.7.5",
+    "react-native-svg": "^9.3.3",
+    "react-native-waveview": "^1.1.0",
+    "react-navigation": "^3.3.2"
+  },
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "24.1.0",
+    "jest": "24.1.0",
+    "metro-react-native-babel-preset": "0.53.0",
+    "react-test-renderer": "16.6.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
