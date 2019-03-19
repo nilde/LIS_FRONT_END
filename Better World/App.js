@@ -21,7 +21,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 const COLORS = ["#E52727", "#08C921", "#4F23D3"]
 const TEXTS = ["Problema", "Mejora", "Limpieza"]
 
-const MARKERS_DIRECTION = 'http://localhost:3000/pin';
+const MARKERS_DIRECTION = 'http://localhost:3000/incidences';
+const MARKER_CREATION_DIRECTION= 'http://localhost:3000/incidence';
 
 const ANCHOR = { x: 0.5, y: 0.5 };
 export default class App extends Component {
@@ -59,12 +60,13 @@ export default class App extends Component {
                 return response.json()
             })
             .then((data) => {
+                console.warn(data)
                 var markers = []
-                for (var i = 0; i < data.pins.length; i++) {
-                    var latitude = data.pins[i].x
-                    var longitude = data.pins[i].y
+                for (var i = 0; i < data.incidences.length; i++) {
+                    var latitude = data.incidences[i].x
+                    var longitude = data.incidences[i].y
                     var color = COLORS[0]
-                    var title = data.pins[i].info
+                    var title = data.incidences[i].info
                     markers.push({ coordinate: { latitude, longitude }, index: i, color: color, title: title })
                 }
 
@@ -112,6 +114,28 @@ closeModalVisible(type){
 }
 
 createPin(){
+  
+    fetch(MARKER_CREATION_DIRECTION, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            incidence:{
+              info:"x",
+              type:"pokemon",
+              x:this.state.temporalCoordinate.latitude,
+              y:this.state.temporalCoordinate.longitude
+          },
+        }),
+      }).then((response) => response.json())
+          .then((responseJson) => {
+            return responseJson;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
     this.setState({ markers: [...this.state.markers, { coordinate: this.state.temporalCoordinate, index: this.state.markers.length, color: this.manageMarkersInfo(this.state.markers.length)[0], title: this.manageMarkersInfo(this.state.markers.length)[1] + " " + (this.state.markers.length + 1) }], visibleModalCreation : false })
 }
 
