@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "apsl-react-native-button": "^3.1.1",
     "react": "16.6.3",
-    "react-native": "^0.59.1",
+    "react-native": "^0.59.2",
+    "react-native-animatable": "^1.3.2",
     "react-native-bottom-bar": "^0.1.4",
     "react-native-camera": "^2.2.0",
     "react-native-lightbox": "^0.8.0",
@@ -18,9 +20,9 @@
     "react-native-photo-view": "^1.5.2",
     "react-native-responsive-screen": "^1.2.1",
     "react-native-snap-carousel": "^3.7.5",
-    "react-native-svg": "^9.3.3",
+    "react-native-svg": "^9.3.7",
     "react-native-waveview": "^1.1.0",
-    "react-navigation": "^3.3.2"
+    "react-navigation": "^3.6.0"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",

@@ -22,6 +22,20 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		34EC1C0A222EF27300714227 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34EC1C09222EF26A00714227 /* libAirMaps.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		34F8827D2253EC92000860E8 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		34F882B42253EFCE000860E8 /* check-mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A32253EDC3000860E8 /* check-mark.png */; };
+		34F882B52253EFCE000860E8 /* clean.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A62253EDC3000860E8 /* clean.png */; };
+		34F882B62253EFCE000860E8 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F8829D2253EDC2000860E8 /* close.png */; };
+		34F882B72253EFCE000860E8 /* emptyHeart.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F8829F2253EDC2000860E8 /* emptyHeart.png */; };
+		34F882B82253EFCE000860E8 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A42253EDC3000860E8 /* error.png */; };
+		34F882B92253EFCE000860E8 /* flag_f.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F8829A2253EDC2000860E8 /* flag_f.png */; };
+		34F882BA2253EFCE000860E8 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F8829B2253EDC2000860E8 /* flag.png */; };
+		34F882BB2253EFCE000860E8 /* fullHeart.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A22253EDC2000860E8 /* fullHeart.png */; };
+		34F882BC2253EFCE000860E8 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A12253EDC2000860E8 /* map.png */; };
+		34F882BD2253EFCE000860E8 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F8829C2253EDC2000860E8 /* menu.png */; };
+		34F882BE2253EFCE000860E8 /* right-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A02253EDC2000860E8 /* right-arrow.png */; };
+		34F882BF2253EFCE000860E8 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F882A52253EDC3000860E8 /* share.png */; };
+		34F882C02253EFCE000860E8 /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F8829E2253EDC2000860E8 /* warning.png */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -336,6 +350,32 @@
 		34BE26D522365F5300D79A90 /* libGoogle-Maps-iOS-Utils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libGoogle-Maps-iOS-Utils.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34EC1C02222EF22D00714227 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = "../node_modules/react-native-maps/package.json"; sourceTree = "<group>"; };
 		34EC1C04222EF26A00714227 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
+		34F882802253ED0F000860E8 /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
+		34F882812253ED0F000860E8 /* flag_f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag_f.png; sourceTree = "<group>"; };
+		34F882822253ED0F000860E8 /* fullHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullHeart.png; sourceTree = "<group>"; };
+		34F882832253ED0F000860E8 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
+		34F882842253ED0F000860E8 /* right-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right-arrow.png"; sourceTree = "<group>"; };
+		34F882852253ED0F000860E8 /* check-mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-mark.png"; sourceTree = "<group>"; };
+		34F882862253ED0F000860E8 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		34F882872253ED0F000860E8 /* clean.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clean.png; sourceTree = "<group>"; };
+		34F882882253ED0F000860E8 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
+		34F882892253ED0F000860E8 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		34F8828A2253ED0F000860E8 /* emptyHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyHeart.png; sourceTree = "<group>"; };
+		34F8828B2253ED0F000860E8 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		34F882982253ED91000860E8 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../images; sourceTree = "<group>"; };
+		34F8829A2253EDC2000860E8 /* flag_f.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flag_f.png; path = ../images/flag_f.png; sourceTree = "<group>"; };
+		34F8829B2253EDC2000860E8 /* flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flag.png; path = ../images/flag.png; sourceTree = "<group>"; };
+		34F8829C2253EDC2000860E8 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu.png; path = ../images/menu.png; sourceTree = "<group>"; };
+		34F8829D2253EDC2000860E8 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = close.png; path = ../images/close.png; sourceTree = "<group>"; };
+		34F8829E2253EDC2000860E8 /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = warning.png; path = ../images/warning.png; sourceTree = "<group>"; };
+		34F8829F2253EDC2000860E8 /* emptyHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = emptyHeart.png; path = ../images/emptyHeart.png; sourceTree = "<group>"; };
+		34F882A02253EDC2000860E8 /* right-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "right-arrow.png"; path = "../images/right-arrow.png"; sourceTree = "<group>"; };
+		34F882A12253EDC2000860E8 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = ../images/map.png; sourceTree = "<group>"; };
+		34F882A22253EDC2000860E8 /* fullHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fullHeart.png; path = ../images/fullHeart.png; sourceTree = "<group>"; };
+		34F882A32253EDC3000860E8 /* check-mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "check-mark.png"; path = "../images/check-mark.png"; sourceTree = "<group>"; };
+		34F882A42253EDC3000860E8 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = error.png; path = ../images/error.png; sourceTree = "<group>"; };
+		34F882A52253EDC3000860E8 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = share.png; path = ../images/share.png; sourceTree = "<group>"; };
+		34F882A62253EDC3000860E8 /* clean.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clean.png; path = ../images/clean.png; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		62907DC5F22343089F7AF10A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		747E3DC61D974F759509C15A /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -540,6 +580,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		34F8827E2253ED0F000860E8 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				34F8827F2253ED0F000860E8 /* images */,
+			);
+			name = assets;
+			path = ../images/assets;
+			sourceTree = "<group>";
+		};
+		34F8827F2253ED0F000860E8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				34F882802253ED0F000860E8 /* warning.png */,
+				34F882812253ED0F000860E8 /* flag_f.png */,
+				34F882822253ED0F000860E8 /* fullHeart.png */,
+				34F882832253ED0F000860E8 /* map.png */,
+				34F882842253ED0F000860E8 /* right-arrow.png */,
+				34F882852253ED0F000860E8 /* check-mark.png */,
+				34F882862253ED0F000860E8 /* menu.png */,
+				34F882872253ED0F000860E8 /* clean.png */,
+				34F882882253ED0F000860E8 /* error.png */,
+				34F882892253ED0F000860E8 /* share.png */,
+				34F8828A2253ED0F000860E8 /* emptyHeart.png */,
+				34F8828B2253ED0F000860E8 /* close.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		43CC6626412FA1A043EDCBC2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +667,21 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				34F882A32253EDC3000860E8 /* check-mark.png */,
+				34F882A62253EDC3000860E8 /* clean.png */,
+				34F8829D2253EDC2000860E8 /* close.png */,
+				34F8829F2253EDC2000860E8 /* emptyHeart.png */,
+				34F882A42253EDC3000860E8 /* error.png */,
+				34F8829A2253EDC2000860E8 /* flag_f.png */,
+				34F8829B2253EDC2000860E8 /* flag.png */,
+				34F882A22253EDC2000860E8 /* fullHeart.png */,
+				34F882A12253EDC2000860E8 /* map.png */,
+				34F8829C2253EDC2000860E8 /* menu.png */,
+				34F882A02253EDC2000860E8 /* right-arrow.png */,
+				34F882A52253EDC3000860E8 /* share.png */,
+				34F8829E2253EDC2000860E8 /* warning.png */,
+				34F882982253ED91000860E8 /* images */,
+				34F8827E2253ED0F000860E8 /* assets */,
 				34EC1C04222EF26A00714227 /* AirMaps.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* LIS */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1046,6 +1129,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34F882B42253EFCE000860E8 /* check-mark.png in Resources */,
+				34F882B52253EFCE000860E8 /* clean.png in Resources */,
+				34F882B62253EFCE000860E8 /* close.png in Resources */,
+				34F882B72253EFCE000860E8 /* emptyHeart.png in Resources */,
+				34F882B82253EFCE000860E8 /* error.png in Resources */,
+				34F882B92253EFCE000860E8 /* flag_f.png in Resources */,
+				34F882BA2253EFCE000860E8 /* flag.png in Resources */,
+				34F882BB2253EFCE000860E8 /* fullHeart.png in Resources */,
+				34F882BC2253EFCE000860E8 /* map.png in Resources */,
+				34F882BD2253EFCE000860E8 /* menu.png in Resources */,
+				34F882BE2253EFCE000860E8 /* right-arrow.png in Resources */,
+				34F882BF2253EFCE000860E8 /* share.png in Resources */,
+				34F882C02253EFCE000860E8 /* warning.png in Resources */,
+				34F8827D2253EC92000860E8 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -1059,6 +1156,8 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 			);
 			name = "Bundle React Native code and images";
@@ -1066,7 +1165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh \n";
 		};
 		B725E45A38A7A73F774984D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

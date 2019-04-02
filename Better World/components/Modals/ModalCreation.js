@@ -38,7 +38,7 @@ export default class ModalCreation extends Component {
 
     <Image
       style={{ width:"100%",height:"100%",resizeMode:"cover",position:"absolute",alignSelf:"center" }}
-      source={{ uri: 'https://lachincheta.laverdad.es/img/chinchetas/101/202075912__300x400.jpg' }}
+      source={item}
 
       alt={index}
     />
@@ -95,7 +95,7 @@ export default class ModalCreation extends Component {
                                 <View style={{flex:1,shadowOpacity:0.3,shadowRadius:3,shadowOffset:{height:1},alignSelf:"center",alignItems:"center"}}>
                                 <Carousel
               ref={(c) => { this._carousel = c; }}
-              data={this.state.entries}
+              data={this.props.arrayImages}
               renderItem={this._renderItem}
               sliderWidth={wp("80%")}
               itemWidth={wp("35%")}

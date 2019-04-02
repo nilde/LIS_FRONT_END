@@ -8,6 +8,14 @@ PODS:
   - glog (0.3.5)
   - React (0.59.1):
     - React/Core (= 0.59.1)
+  - react-native-camera (2.2.0):
+    - React
+    - react-native-camera/RCT (= 2.2.0)
+    - react-native-camera/RN (= 2.2.0)
+  - react-native-camera/RCT (2.2.0):
+    - React
+  - react-native-camera/RN (2.2.0):
+    - React
   - React/Core (0.59.1):
     - yoga (= 0.59.1.React)
   - React/CxxBridge (0.59.1):
@@ -69,6 +77,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -98,6 +107,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   yoga:
@@ -109,9 +120,10 @@ SPEC CHECKSUMS:
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: 34a405ead72252839fdc4afc1f972a7ed984af84
+  react-native-camera: feef3f64d7e331947876d748e66608a739521226
   RNSVG: 978db19eaef499d9ebffb74a091ca0abf209c8c1
   yoga: 8fb47f180b19b0dadb285a09e4c74c8a41721d3a
 
-PODFILE CHECKSUM: cfcab054e5f3dedbdfc3033bf10ec05dddd063d1
+PODFILE CHECKSUM: 5551b84936cb2f10f465eff575e03010fb96ea9a
 
 COCOAPODS: 1.6.1
