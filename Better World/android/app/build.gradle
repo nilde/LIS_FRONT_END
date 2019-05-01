@@ -134,6 +134,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-view-overflow')
     implementation project(':react-native-camera')
     implementation project(':react-native-vector-icons')
     implementation project(':@merryjs_photo-viewer')
