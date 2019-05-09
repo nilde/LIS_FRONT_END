@@ -19,17 +19,20 @@ import * as Animatable from 'react-native-animatable';
 
 const POSSIBLE_STATES=["PENDIENTE","EN PROGRESO","SOLUCIONADA"]
 
+
 const relations={
-    "Destrozo":"#750101",
+    "Destrozo":"#FF1500",
     "Mejora":"#00BF6C",
-    "Limpieza":"#011075",
-    "Avería":"#9B8701"
+    "Limpieza":"#0074F9",
+    "Avería":"#F9C107"
 }
 
 
 export default class ModalDetails extends Component {
     constructor(props) {
         super(props);
+        this._renderItem=this._renderItem.bind(this);
+
         this.manageLike=this.manageLike.bind(this);
         this.state={
             heart:false,
@@ -60,8 +63,9 @@ export default class ModalDetails extends Component {
     }
 
     _renderItem ({item, index}) {
+        console.warn(this.state.entries.length)
         return (
-            <View style={{backgroundColor:"#303030",alignItems:"center",height:"90%",justifyContent:"center",borderRadius:20,shadowOpacity:0.4,shadowRadius:4,shadowColor:"#fff"}}>
+            <View style={{ backgroundColor:"#fff",alignItems:"center",height:"90%",justifyContent:"center",borderRadius:20}}>
 
     <Image
       style={{ width:"100%",height:"100%",resizeMode:"cover",position:"absolute",alignSelf:"center",borderRadius:10,borderWidth:0,borderColor:"#fff" }}
@@ -69,8 +73,25 @@ export default class ModalDetails extends Component {
 
       alt={index}
     />
+    {index!=this.state.entries.length-1 &&
+    <View style={{position:"absolute", bottom:"40%",right:"3%", width: wp("7%"), height: wp("7%"), alignSelf: "center", borderRadius:800,borderWidth:0,backgroundColor:"#fff",justifyContent:"center",alignItems:"center" }} >
+                                <Text style={{ color:relations[this.props.type], fontSize: 18,fontWeight:"700",position:"absolute" }}>
+                                        →
+</Text>
+    
+                                   
+                                </View>
+    }
+   {index!=0 &&
+                                <View style={{position:"absolute", bottom:"40%",left:"3%", width: wp("7%"), height: wp("7%"), alignSelf: "center", borderRadius:800,borderWidth:0,backgroundColor:"#fff",justifyContent:"center",alignItems:"center" }}>
+                                <Text style={{ color:relations[this.props.type], fontSize: 18,fontWeight:"700",position:"absolute" }}>
+                                        ←
+</Text>
+                                   
+                                </View>
+                                 }
             <View style={{width:wp("6%"),height:wp("6%"),borderRadius:4,backgroundColor:"#fff",position:"absolute",bottom:"3%",right:"3%",alignItems:"center",justifyContent:"center"}}>
-            <Text style={{fontWeight:"500",color:"#303030"}}>
+            <Text style={{fontWeight:"700",color:relations[this.props.type]}}>
                 {index+1}
                 </Text>
             </View>
@@ -98,25 +119,30 @@ export default class ModalDetails extends Component {
 </Button>
                 <View style={{position:"absolute",bottom:"-4%",width:wp("100%"),height:hp("85%"),backgroundColor:relations[this.props.type],alignSelf:"center",borderTopLeftRadius:20,borderTopRightRadius:20,overflow:"hidden",paddingTop:"5%"}}>
                 <Image source={require("../../images/Path.png")} style={{position:"absolute",bottom:"-75%", resizeMode:"contain",width:wp("100%"),height:hp("100%"),tintColor:"#fff"}}/>
-                    <View style={{borderWidth:0,width:"50%",height:"6%",alignSelf:"center",borderRadius:40,justifyContent:"center",alignItems:"center"}}>
-                <Text style={{color:"#fff",fontSize:32,fontWeight:"500"}}>
+                    <View style={{borderWidth:0,width:"100%",height:"10%",alignSelf:"center",borderRadius:40,justifyContent:"center",alignItems:"center"}}>
+                <Text style={{color:"#fff",fontSize:34,fontWeight:"600",position:"absolute",top:0}}>
                     {this.props.type}
                 </Text>
+                <Text style={{color:"#fff",fontSize:15,fontWeight:"600",position:"absolute",bottom:"10%"}}>
+                    Creada el 27 de Abr.
+                </Text>
                     </View>
-                    
-                <View style={{position:"absolute",top:"3%",width:"80%",height:"55%",marginTop:"15%",alignSelf:"center",alignItems:"center"}}>
+                   
+                <View style={{position:"absolute",top:"5%",width:"80%",height:"55%",marginTop:"15%",alignSelf:"center",alignItems:"center",justifyContent:"center"}}>
                 
                 <View style={{flex:1,shadowOpacity:0.4,shadowRadius:6,shadowOffset:{height:1}}}>
                 
+               
 
                 <Carousel
-                layout={'stack'} layoutCardOffset={`18`}
+                layout={'stack'} layoutCardOffset={'9'}
               ref={(c) => { this._carousel = c; }}
               data={this.state.entries}
               renderItem={this._renderItem}
-              sliderWidth={wp("92%")}
-              itemWidth={wp("90%")}
-              itemHeight={wp("90%")}
+              sliderWidth={wp("82%")}
+              itemWidth={wp("82%")}
+              itemHeight={wp("82%")}
+              style={{position:"absolute",right:0}}
             />
             </View>
                 </View>
@@ -171,18 +197,7 @@ export default class ModalDetails extends Component {
 
                 </View>
 
-                {!this.props.isAdmin &&
-                <Button style={{alignSelf:"center",position:"absolute",bottom:"14%",width:wp("22%"),height:wp("22%"),borderRadius:0,justifyContent:"center",borderWidth:0}} onPress={()=>this.manageLike()}>
-                
-                {!this.state.heart &&false &&
-                <Image style={{position:"absolute",width:"73%",height:"73%",resizeMode:"contain",tintColor:"gray",alignSelf:"center",tintColor:"gray"}} source={require("../../images/emptyHeart.png")}/>}
-                {this.state.heart && false &&
-                <Image style={{position:"absolute",width:"73%",height:"73%",resizeMode:"contain",tintColor:"#303030",alignSelf:"center",tintColor:"#F9313F"}} source={require("../../images/fullHeart.png")}/>}
-                <Text style={{alignSelf:"center",color:(this.state.heart)? "#FFF":"gray",fontSize:17,fontWeight:"600"}}>
-                    {this.state.likes}
-                </Text>
-                </Button>
-                }
+
                 </View>
               
             </Modal>

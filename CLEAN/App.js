@@ -18,19 +18,297 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { RNCamera } from 'react-native-camera';
 import * as Animatable from 'react-native-animatable';
 import TabBar from "fluidbottomnavigation-rn";
-
+import AppIntroSlider from 'react-native-app-intro-slider';
+import ClusteredMapView from 'react-native-maps-super-cluster';
 import { Hoshi } from 'react-native-textinput-effects';
 
 import RotatingText from 'react-native-rotating-text'
 
-const COLORS = ["#CE0202", "#00BF6C", "#0077E8","#E5BD1D"]
+const COLORS = ["#FF1500", "#00BF6C", "#0074F9","#F9C107"]
 const TEXTS = ["Destrozo", "Mejora", "Limpieza","Avería"]
 //limipeza azul
 //rojo destrozo
 //averias amarillo,
 //mejoras verde
 
+const slides = [
+    {
+      key: 'somethun-dos',
+      title: 'Paso 1',
+      text: 'Descubre problemas',
+      image: require('./images/diapo2.png'),
+      backgroundColor: '#00BF6C',
+    },
+    {
+      key: 'somethun1',
+      title: 'Paso 2',
+      text: 'Toma una foto',
+        image: require('./images/phone.png'),
+      backgroundColor: '#00BF6C',
+    },
+    {
+        key: 'somethun2',
+        title: 'Paso 3',
+        text: '¡Mejora tu ciudad!',
+          image: require('./images/diapo1.png'),
+        backgroundColor: '#00BF6C',
+      }
+  ];
 
+const DAY_MODE=[
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#7c93a3"
+            },
+            {
+                "lightness": "-10"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.country",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.country",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#a0a4a5"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative.province",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#62838e"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#dde3e3"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#3f4a51"
+            },
+            {
+                "weight": "0.30"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.business",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.government",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.place_of_worship",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.school",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.sports_complex",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "saturation": "-100"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#bbcacf"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "lightness": "0"
+            },
+            {
+                "color": "#bbcacf"
+            },
+            {
+                "weight": "0.50"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway.controlled_access",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway.controlled_access",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#a9b4b8"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "invert_lightness": true
+            },
+            {
+                "saturation": "-7"
+            },
+            {
+                "lightness": "3"
+            },
+            {
+                "gamma": "1.80"
+            },
+            {
+                "weight": "0.01"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#a3c7df"
+            }
+        ]
+    }
+]
 const NIGHT_MODE=[
     {
         "featureType": "all",
@@ -316,12 +594,13 @@ const NIGHT_MODE=[
     }
 ];
 
+["#FF1500", "#00BF6C", "#0074F9","#F9C107"]
 
 const relations={
-    "Destrozo":"#CE0202",
-    "Mejora":"#3CB500",
-    "Limpieza":"#0077E8",
-    "Avería":"#E5BD1D"
+    "Destrozo":"#FF1500",
+    "Mejora":"#00BF6C",
+    "Limpieza":"#0074F9",
+    "Avería":"#F9C107"
 }
 
 
@@ -350,7 +629,6 @@ const PendingView = () => (
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.manageMarkers = this.manageMarkers.bind(this);
         this.manageMarkersInfo = this.manageMarkersInfo.bind(this);
         this.manageGetPhone = this.manageGetPhone.bind(this);
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
@@ -383,12 +661,14 @@ export default class App extends Component {
             temporalType:"",
             token:"",
             type:"",
-            indexMenu:1,
+            indexMenu:2,
             cameraVisible:false,
             arrayImages:[],
             expanded:false,
             latitude:0,
             longitude:0,
+            showRealApp: true,
+            showMap:true
 
 
         }
@@ -410,8 +690,8 @@ export default class App extends Component {
     loadDataFromServer() {
         var allData= new FormData();
 
-    allData.append("x",this.state.temporalCoordinate.latitude.toString())
-    allData.append("y",this.state.temporalCoordinate.longitude.toString())
+    allData.append("x",this.state.latitude.toString())
+    allData.append("y",this.state.longitude.toString())
     allData.append("token",this.state.token)
     allData.append("radius",0.10)
         fetch(MARKERS_DIRECTION, {
@@ -419,7 +699,7 @@ export default class App extends Component {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
-            body:allData
+           // body:allData
     
           }).then((response) => {
                 return response.json()
@@ -432,7 +712,7 @@ export default class App extends Component {
                     var color = COLORS[0]
                     var title = data.incidences[i].info
                     var type=data.incidences[i].type
-                    markers.push({ coordinate: { latitude, longitude }, index: i, color: color, title: title,type:type })
+                    markers.push({ location: { latitude, longitude }, id: i, color: color, title: title,type:type })
                 }
 
                 this.setState({ markers: markers })
@@ -446,11 +726,11 @@ export default class App extends Component {
 
         var token=await AsyncStorage.getItem("token")
         if(token!=null){
-
             this.setState({userCreated:2})
         }
 
-        navigator.geolocation.getCurrentPosition(
+ 
+          navigator.geolocation.watchPosition(
             (position) => {
             this.setState({
                 latitude: position.coords.latitude,
@@ -459,7 +739,8 @@ export default class App extends Component {
               });
             },
             (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
+
           );
             
 
@@ -489,15 +770,15 @@ closeModalVisible(type,active,temporalDescription){
     this.setState({visibleModalCreation:false})
 }
 
-createPin(active,description){
+async createPin(active,description){
 
     var allData= new FormData();
     allData.append("info","PRUEBA_T")
     allData.append("type",TEXTS[active])
     //allData.append("x",(41.38879).toString())
     //allData.append("y",(2.15899).toString())
-    allData.append("x",this.state.temporalCoordinate.latitude.toString())
-    allData.append("y",this.state.temporalCoordinate.longitude.toString())
+    allData.append("x",this.state.latitude.toString())
+    allData.append("y",this.state.longitude.toString())
     allData.append("images","")
     allData.append("token",this.state.token)
     fetch(MARKER_CREATION_DIRECTION, {
@@ -515,7 +796,9 @@ createPin(active,description){
             console.log(error);
           });
     console.log(TEXTS[active])
-    this.setState({ markers: [...this.state.markers, { coordinate: this.state.temporalCoordinate, index: this.state.markers.length, color: this.manageMarkersInfo(this.state.markers.length)[0], title: this.manageMarkersInfo(this.state.markers.length)[1] + " " + (this.state.markers.length + 1),type:TEXTS[active]}], visibleModalCreation : false })
+    const latitude=this.state.latitude;
+    const longitude=this.state.longitude;
+    await this.setState({ markers: [...this.state.markers, { location:{latitude,longitude}, id: this.state.markers.length, color: this.manageMarkersInfo(this.state.markers.length)[0], title: this.manageMarkersInfo(this.state.markers.length)[1] + " " + (this.state.markers.length + 1),type:TEXTS[active]}], visibleModalCreation : false })
 }
 
 
@@ -526,45 +809,48 @@ manageText(type){
 }
 
 
-    manageMarkers() {
-        return (
-            this.state.markers.map((marker, index) => (
-               
+    renderMarker = (marker) => 
+
                 
                 /* revisar metodo que se llama al pulsar en el pin */
                 <Marker
-        
-                    coordinate={marker.coordinate}
+                    centerOffset={{x:0,y:-8}}
+                    coordinate={marker.location}
                     pinColor={marker.color}
                     onSelect={()=>this.setState({visibleModalDetails:true,type:marker.type})}
-                    ref={_marker => {this.marker = _marker;}}
+                    ref={_marker => {this.marker = _marker}}
                 >
+                <View style={{width:"20%",height:"50%",borderRadius:4,backgroundColor:relations[marker.type],position:"absolute",bottom:"-15%",alignSelf:"center", shadowRadius: 3, shadowOpacity: 0.2, shadowOffset: { height: 1 },shadowColor:relations[marker.type]}}>
+
+</View>
+
                     {/*cambiar aqui el texto por las imagenes asociadas */}
-                    <View style={{ flex: 1, shadowRadius: 4, shadowOpacity: 0.7, shadowOffset: { height: 1 },shadowColor:relations[marker.type], }}>
-                        <View style={{ flex: 1, alignSelf: "center", borderWidth: 3, borderColor: "#fff", justifyContent: "center", width: 35, height: 35, borderRadius: 18, backgroundColor: relations[marker.type], justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ flex: 1, shadowRadius: 3, shadowOpacity: 0.2, shadowOffset: { height: 1 },shadowColor:relations[marker.type], }}>
+                        <View style={{ flex: 1, alignSelf: "center", justifyContent: "center", width: 35, height: 28, borderRadius: 40, backgroundColor:relations[marker.type], justifyContent: "center", alignItems: "center" }}>
                             {marker.type=="Avería" &&
                             <Text style={{ color: "#fff", fontSize: 22, fontWeight: "900", textAlign: "center", alignSelf: "center" }}>
                                 !
                 </Text>
                             }
                             { marker.type=="Mejora" &&
-                            <Text style={{position:"absolute",alignSelf:"center", color: "#fff", fontSize: 22, fontWeight: "800", textAlign: "center", alignSelf: "center" }}>
+                            <Text style={{position:"absolute",top:"-20%",alignSelf:"center", color: "#fff", fontSize: 30, fontWeight: "700", textAlign: "center", alignSelf: "center" }}>
                                 +
                 </Text>
                             }
                             { marker.type=="Limpieza" &&
-                            <Image style={{position:"absolute",alignSelf:"center",width:"60%",height:"60%",resizeMode:"contain",tintColor:"#fff"}} source={require("./images/clean.png")}></Image>
+                            <Image style={{position:"absolute",alignSelf:"center",width:"55%",height:"55%",resizeMode:"contain",tintColor:"#fff"}} source={require("./images/clean.png")}></Image>
                             }
                             { marker.type=="Destrozo" &&
-                            <Image style={{position:"absolute",alignSelf:"center",width:"55%",height:"55%",resizeMode:"contain",tintColor:"#fff"}} source={require("./images/error.png")}></Image>
+                            <Image style={{position:"absolute",alignSelf:"center",width:"50%",height:"50%",resizeMode:"contain",tintColor:"#fff"}} source={require("./images/error.png")}></Image>
                             }
 
                         </View>
+                       
                     </View>
                 </Marker>
-            ))
-        )
-    }
+
+
+    
 
 
     manageMarkersInfo(index) {
@@ -816,7 +1102,7 @@ intermediateVerification(){
 
 
             {!!this.state.name && !!this.state.verification &&
-                <Button style={{position:"absolute",bottom:"2%",width:"90%",height:"10%",borderWidth:0,alignSelf:"center",justifyContent:"center"}} onPress={()=>this.intermediateVerification()}>
+                <Button style={{position:"absolute",bottom:"2%",width:"90%",height:"10%",borderWidth:0,alignSelf:"center",justifyContent:"center"}} onPress={()=>{this.setState({showRealApp:false}); this.intermediateVerification()}}>
                 <Text style={{position:"absolute",bottom:"30%",alignSelf:"center",fontSize:25,fontWeight:"500",color:"#303030"}}>
                     Empezar
                 </Text>
@@ -831,9 +1117,39 @@ intermediateVerification(){
 
     manageIndexMenu(index){
         this.setState({indexMenu:index})
-        if(index==1)
+        if(index==2)
         this.setState({cameraVisible:true})
     }
+
+
+  renderCluster = (cluster, onPress) => {
+    const pointCount = cluster.pointCount,
+          coordinate = cluster.coordinate,
+          clusterId = cluster.clusterId
+
+    const clusteringEngine = this.map.getClusteringEngine(),
+          clusteredPoints = clusteringEngine.getLeaves(clusterId, 400)
+
+    return (
+      <Marker coordinate={coordinate} centerOffset={{x:0,y:0}} onPress={onPress}>
+      
+
+                    {/*cambiar aqui el texto por las imagenes asociadas */}
+                    <View style={{ flex: 1, shadowRadius: 3, shadowOpacity: 0.3, shadowOffset: { height: 1 }, }}>
+                        <View style={{ flex: 1, alignSelf: "center", justifyContent: "center", width: 35, height: 35, borderRadius: 40, backgroundColor:"#fff", justifyContent: "center", alignItems: "center" }}>
+
+
+                            <Text style={{position:"absolute",alignSelf:"center", color: "#303030", fontSize: 20, fontWeight: "700", textAlign: "center", alignSelf: "center" }}>
+                                {pointCount}
+                </Text>
+      
+
+                        </View>
+                       
+                    </View>
+      </Marker>
+    )
+  }
 
     //TODO:show map screen
     manageContent() {
@@ -842,9 +1158,9 @@ intermediateVerification(){
         return (
             <View style={styles.container}>
                
-                <MapView
-                //customMapStyle={NIGHT_MODE}
-                //provider={PROVIDER_GOOGLE}
+                <ClusteredMapView
+                customMapStyle={(new Date().getHours()>14 ||new Date().getHours()<7)? NIGHT_MODE: DAY_MODE}
+               // provider={PROVIDER_GOOGLE}
                     initialRegion={{
                         latitude:(this.state.location!=0 && this.state.latitude!=0)? this.state.latitude :41.390205,
                         longitude:(this.state.location!=0 && this.state.latitude!=0) ? this.state.longitude: 2.154007,
@@ -853,47 +1169,17 @@ intermediateVerification(){
                     }}
                     paddingAdjustmentBehavior={"always"}
                     maxZoomLevel={30}
+                    data={this.state.markers}
                     style={{ width: "100%", height: "100%" }}
                     showsUserLocation
-                    location={this.state.locationResult}
-                    onLongPress={(e) => this.setState({ visibleModalCreation: true, temporalCoordinate: e.nativeEvent.coordinate })}
                     userLocationAnnotationTitle={"Mi posición"}
                     showsCompass={false}
-
+                    ref={(r) => { this.map = r }}
+                    renderMarker={this.renderMarker}
+                    renderCluster={this.renderCluster}
+                    edgePadding={{ top: 10, left: 10, bottom: 10, right: 10} }
                 >
-                    {this.manageMarkers()}
-                </MapView>
-
-                <View style={{position:"absolute",right:"3%",top:"2%",alignSelf:"center",width:wp("12%"),height:wp("12.1%"),borderRadius:wp("7.1%"),backgroundColor:"#fff",shadowOpacity:0.5,shadowRadius:4,shadowOffset:{height:1},justifyContent:"center",alignItems:"center"}}>
-
-                <Image source={require("./images/check-mark.png")} style={{resizeMode:"contain",width:"40%",height:"40%",tintColor:"gray"}}/>
-                </View>
-                
-        {/** 
-                <View style={{ position: "absolute", bottom: "0%", width: "100%", height: "10%", shadowOpacity: 0, shadowRadius: 1, backgroundColor: "#fff", flexDirection: "row",borderTopLeftRadius:30,borderTopRightRadius:30,shadowOpacity:0.08,shadowRadius:8 }}>
-
-                <Button style={{ width: "33%", height: "100%", backgroundColor: "#fff", borderWidth: 0, borderRadius: 0, justifyContent: "center",borderRadius:30 }} onPress={()=>this.manageIndexMenu(1)}>
-                <Image source={require("./images/menu.png")} style={{resizeMode:"contain",width:(this.state.indexMenu==1) ? "28%":"23.5%",height:(this.state.indexMenu==1) ? "28%":"23.5%",tintColor:(this.state.indexMenu==1) ? "#303030":"gray",position:"absolute",top:(this.state.indexMenu==1) ? "17%":"20%"}}/>
-                        <Text style={{position:"absolute",alignSelf:"center",bottom:"26%",fontWeight:"400",  fontSize:(this.state.indexMenu==1) ? 17: 16,color:(this.state.indexMenu==1) ? "#303030":"gray" }}>
-                            Menú
-</Text>
-                    </Button>
-                    <Button style={{ width: "33%", height: "100%", backgroundColor: "#fff", borderWidth: 0, borderRadius: 0, justifyContent: "center",borderRadius:30 }} onPress={()=>this.manageIndexMenu(2)}>
-                    <Image source={require("./images/map.png")} style={{resizeMode:"contain",width:(this.state.indexMenu==2) ? "28%":"23.5%",height:(this.state.indexMenu==2) ? "28%":"23.5%",tintColor:(this.state.indexMenu==2) ? "#303030":"gray",position:"absolute",top:(this.state.indexMenu==2) ? "17%":"20%"}}/>
-                        <Text style={{ position:"absolute",alignSelf:"center",bottom:"26%",fontWeight:"400",  fontSize:(this.state.indexMenu==2) ? 17: 16,color:(this.state.indexMenu==2) ? "#303030":"gray" }}>
-                            Mapa
-</Text>
-                    </Button>
-                    <Button style={{ width: "33%", height: "100%", backgroundColor: "#fff", borderWidth: 0, borderRadius: 0, justifyContent: "center",borderRadius:30 }} onPress={()=>this.manageIndexMenu(3)}>
-                    <Image source={require("./images/warning.png")} style={{resizeMode:"contain",width:(this.state.indexMenu==3) ? "28%":"23.5%",height:(this.state.indexMenu==3) ? "28%":"23.5%",tintColor:(this.state.indexMenu==3) ? "#303030":"gray",position:"absolute",top:(this.state.indexMenu==3) ? "17%":"20%"}}/>
-                        <Text style={{position:"absolute",alignSelf:"center",bottom:"26%",fontWeight:"400",  fontSize:(this.state.indexMenu==3) ? 17: 16,color:(this.state.indexMenu==3) ? "#303030":"gray" }}>
-                            Incidencia
-</Text>
-                    </Button>
-                </View>
-                */}
-
-
+                </ClusteredMapView>
 
             </View>
         );
@@ -975,12 +1261,29 @@ intermediateVerification(){
         );
       }
     
-    
+      _renderItem = (item) => {
+        return (
+          <View style={{flex:1,justifyContent:"center",backgroundColor:item.backgroundColor}} >
+            <Text style={{position:"absolute",top:"10%",alignSelf:"center",color:"#fff",fontWeight:"500",fontSize:40,width:"80%",textAlign:"center"}} >{item.title}</Text>
+           <View style={{width:wp("70%"),height:wp("70%"),borderRadius:wp("40%"),backgroundColor:"rgba(255,255,255,0.2)",position:"absolute",top:"25%",alignSelf:"center",justifyContent:"center",alignItems:"center"}}>
+            <Image style={{width:"70%",height:"70%",resizeMode:"contain",alignSelf:"center"}} source={item.image} />
+            </View>
+            <Text style={{position:"absolute",top:"70%",alignSelf:"center",textAlign:"center",color:"#fff",fontWeight:"500",fontSize:28}} >{item.text}</Text>
+
+          </View>
+        );
+      }
+      _onDone = () => {
+        // User finished the introduction. Show real app through
+        // navigation or simply by controlling state
+        this.setState({ showRealApp: true });
+      }
 
     render() {
         var content = this.manageContent();
- 
+        if(this.state.showRealApp)
         return(
+            
             <View style={{flex:1,width:"100%",height:"100%"}}>
                 
               {content}  
@@ -1030,48 +1333,90 @@ intermediateVerification(){
     borderTopLeftRadius:25,
     borderTopRightRadius:25,
     shadowOpacity:0.1,
-    shadowRadius:4
+    shadowRadius:4,
+    flexDirection:"row",
                 }}>
-                <TabBar
-          onPress={tabIndex => {
-            this.manageIndexMenu(tabIndex)
-          }}
-          tintColor={"#303030"}
-          values={[
-            { title: "MENÚ", icon: require("./images/menu.png"),style:{width:"10%"} },
-            { title: "", icon: null },
-            { title: "MAPA", icon: require("./images/map.png") }
-          ]}
-        />
-        </View>
-    }
-    {(this.state.userCreated==2) && this.state.cameraVisible==false &&
-        <View style={{position:"absolute",bottom:0,width:"100%",height:"2%",backgroundColor:"#fff",zIndex:3}}></View>
-    }
-    {(this.state.userCreated==2) && this.state.cameraVisible==false &&
-        <View style={{justifyContent:"center", position:"absolute",bottom:0,width:120,height:100,borderRadius:60,borderWidth:5,borderColor:"#fff",borderBottomEndRadius:0,borderBottomLeftRadius:0,borderBottomWidth:0, alignSelf:"center",backgroundColor:"#fff", zIndex:5,shadowOpacity:0.2,shadowRadius:3,shadowOffset:{height:1}}}>
-        <Button style={{flex:1,borderWidth:0}}>
-        <Text style={{position:"absolute",top:"1%",alignSelf:"center",color:"#303030",fontSize:48,fontWeight:"400"}}>
+                <View style={{width:"100%",height:"100%",overflow:"hidden",
+    borderTopLeftRadius:25,
+    borderTopRightRadius:25,flexDirection:"row",justifyContent:"space-between"}}> 
+                <Button style={{width:"30%",height:"100%",borderWidth:0}} onPress={()=>this.setState({showMap:false})}> 
+                <Image style={{position:"absolute",top:(!this.state.showMap) ? "25%":"30%",width:"30%",height:"30%",resizeMode:"contain",tintColor:(!this.state.showMap) ? "#303030":"gray"}} source={require("./images/menu.png")}/>
+               <View style={{position:"absolute",bottom:"22%",alignSelf:"center",width:wp("1.51%"),height:wp("1.52%"),borderRadius:wp("1%"),opacity:(this.state.showMap) ? 0:1,backgroundColor:"#303030"}}/>
+                </Button>
+                <Button style={{top:0,width:"30%",height:"80%",borderWidth:0}} onPress={()=>this.setState({visibleModalCreation:true})}> 
+                    <View style={{width:wp("10%"),height:wp("10%"),borderRadius:wp("5%"),justifyContent:"center",alignItems:"center",}}>
+                <Text style={{position:"absolute",alignSelf:"center",color:"#303030",fontSize:36,fontWeight:"500"}}>
             +
         </Text>
-        <Text style={{position:"absolute",bottom:"15%",alignSelf:"center",color:"#303030",fontSize:14,fontWeight:"500"}}>
-            NUEVA
-        </Text>
-
-        </Button>
+        </View>
+                </Button>
+                <Button style={{width:"30%",height:"100%",borderWidth:0}} onPress={()=>this.setState({showMap:true})}> 
+                <Image style={{position:"absolute",top:(this.state.showMap) ? "25%":"30%",width:"30%",height:"30%",resizeMode:"contain",tintColor:(this.state.showMap) ? "#303030":"gray" }} source={require("./images/map.png")}/>
+                <View style={{position:"absolute",bottom:"22%",alignSelf:"center",width:wp("1.5%"),height:wp("1.51%"),borderRadius:wp("1.7%"),opacity:(this.state.showMap) ? 1:0,backgroundColor:"#303030"}}/>
+                </Button>
+                </View>
+                
         </View>
     }
+
+    <View style={{width:"100%"}}></View>
     {/**PANTALLA DE PERFIL A PASAR A OTRO LADO */}
     { false &&
     <View style={{position:"absolute",flex:1,width:"100%",height:"100%",backgroundColor:"#fff"}}>
-    <Text style={{position:"absolute",top:"10%",left:"5%",fontWeight:"500",fontSize:40}}>
+    <Text style={{position:"absolute",top:"10%",left:"8%",fontWeight:"500",fontSize:40}}>
         Perfil
     </Text>
 
     </View>
     }
+    {!this.state.showMap && 
+    <View style={{position:"absolute",top:0,width:"100%",height:"100%",backgroundColor:"#fff"}}>
+    <Text style={{position:"absolute",top:"7%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
+    Incidencias reportadas a nivel global
+    </Text>
+    <Text style={{position:"absolute",top:"12%",left:"8%",fontSize:35,fontWeight:"600",alignSelf:"center",color:"#303030"}}>
+    133239
+    </Text>
+    <Text style={{position:"absolute",top:"19%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
+    Incidencias solucionadas a nivel global
+    </Text>
+    <Text style={{position:"absolute",top:"24%",left:"8%",fontSize:32,fontWeight:"600",alignSelf:"center",color:"#303030"}}>
+    17320
+    </Text>
+    <Text style={{position:"absolute",top:"31%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
+    Incidencias reportadas por tí
+    </Text>
+    <Text style={{position:"absolute",top:"36%",left:"8%",fontSize:32,fontWeight:"600",alignSelf:"center",color:"#303030"}}>
+    11
+    </Text>
+    <Text style={{position:"absolute",top:"43%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
+    Incidencias solucionadas gracias a tí
+    </Text>
+    <Text style={{position:"absolute",top:"48%",left:"8%",fontSize:32,fontWeight:"600",alignSelf:"center",color:"#303030"}}>
+    5
+    </Text>
+    <Text style={{position:"absolute",top:"55%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
+    Nombre de usuario
+    </Text>
+    <Text style={{position:"absolute",top:"60%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"gray"}}>
+   {this.state.name}
+    </Text>
+    <Text style={{position:"absolute",top:"67%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
+    Número de teléfono
+    </Text>
+    <Text style={{position:"absolute",top:"72%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"gray"}}>
+   {this.state.phone}
+    </Text>
+    <Text style={{position:"absolute",top:"85%",left:"8%",fontSize:14,fontWeight:"500",alignSelf:"center",color:"gray"}}>
+   BetterWorld Beta 2019 🗺
+    </Text>
+    </View>
+}
             </View>
+
         )
+        else 
+        return  <AppIntroSlider nextLabel={"Siguiente"} doneLabel={"Vamos"} showSkipButton skipLabel={"Saltar"} renderItem={this._renderItem} slides={slides} onDone={this._onDone}/>
         
     }
 }
