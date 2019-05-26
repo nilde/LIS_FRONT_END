@@ -12,10 +12,12 @@ describe('ModelCreation', () => {
     renderer.create(<ModalCreation />);
   });
   
+  // Comprobar que les variables s'inicien correctament
   it('should init variables correctly', () => {
     expect(modalCreation.state.heart).toBeFalsy();
     expect(modalCreation.state.active).toBeEqual(-1);
     expect(modalCreation.state.likes).toBeEqual(322);
     expect(modalCreation.state.description).toBe("");
   });
+
 });
