@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Location, TouchableOpacity,Alert, Icon,Image, AsyncStorage,TextInput,Animated } from 'react-native';
+import { Platform, StyleSheet, Text, View, Location, TouchableOpacity,TouchableWithoutFeedback,Alert, Keyboard,Icon,Image, AsyncStorage,TextInput,Animated } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import Button from 'apsl-react-native-button'
 import Wave from 'react-native-waveview';
@@ -23,7 +23,7 @@ import ClusteredMapView from 'react-native-maps-super-cluster';
 import { Hoshi } from 'react-native-textinput-effects';
 
 import RotatingText from 'react-native-rotating-text'
-
+console.disableYellowBox = true;
 const COLORS = ["#FF1500", "#00BF6C", "#0074F9","#F9C107"]
 const TEXTS = ["Destrozo", "Mejora", "Limpieza","Avería"]
 //limipeza azul
@@ -609,8 +609,8 @@ const MARKERS_DIRECTION = 'https://better-world-api.herokuapp.com/incidences';
 
 //POST
 const MARKER_CREATION_DIRECTION= 'https://better-world-api.herokuapp.com/incidence';
-const REGISTER_DIRECTION='https://better-world-api.herokuapp.com/register';
-const SMS_VERIFICATION_DIRECTION='https://better-world-api.herokuapp.com/verify';
+const REGISTER_DIRECTION='https://better-world-api.herokuapp.com/user/register';
+const SMS_VERIFICATION_DIRECTION='https://better-world-api.herokuapp.com/user/verify';
 
 
 const PendingView = () => (
@@ -668,7 +668,8 @@ export default class App extends Component {
             latitude:0,
             longitude:0,
             showRealApp: true,
-            showMap:true
+            showMap:true,
+            verificationCode:""
 
 
         }
@@ -680,9 +681,9 @@ export default class App extends Component {
         var phone = await AsyncStorage.getItem("phone")
         if (phone == null) {
             phone = this.state.phone
-            AsyncStorage.setItem("phone", phone)
+            await AsyncStorage.setItem("phone", phone)
         }
-        //this.setState({phone:phone})
+        await this.setState({phone:phone})
 
     }
 
@@ -694,12 +695,15 @@ export default class App extends Component {
     allData.append("y",this.state.longitude.toString())
     allData.append("token",this.state.token)
     allData.append("radius",0.10)
-        fetch(MARKERS_DIRECTION, {
-            method: 'GET',
-            headers: {
+    
+
+    //fetch(MARKERS_DIRECTION+"?radius="+(1000000000).toString()+"&x="+"41.39"+"&y="+"2.15", {
+    fetch(MARKERS_DIRECTION, {
+        method: 'GET',
+        headers: {
                 'Content-Type': 'multipart/form-data',
+                'x-auth':this.state.token
             },
-           // body:allData
     
           }).then((response) => {
                 return response.json()
@@ -712,7 +716,8 @@ export default class App extends Component {
                     var color = COLORS[0]
                     var title = data.incidences[i].info
                     var type=data.incidences[i].type
-                    markers.push({ location: { latitude, longitude }, id: i, color: color, title: title,type:type })
+                    var images=data.incidences[i].type
+                    markers.push({ location: { latitude, longitude }, id: i, color: color, title: title,type:type,images:images })
                 }
 
                 this.setState({ markers: markers })
@@ -720,29 +725,58 @@ export default class App extends Component {
     }
 
     async componentDidMount() {
-        this.manageGetPhone();
-        this.loadDataFromServer();
+       await  this.manageGetPhone();
+       
         this.manageText("WB")
 
         var token=await AsyncStorage.getItem("token")
+        console.warn(token)
         if(token!=null){
-            this.setState({userCreated:2})
+            await this.setState({userCreated:2,token:token})
         }
-
+    
  
-          navigator.geolocation.watchPosition(
+          await navigator.geolocation.watchPosition(
             (position) => {
             this.setState({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 error: null,
               });
+                  //fetch(MARKERS_DIRECTION+"?radius="+(100000).toString()+"&x="+"50"+"&y="+"-120", {
+                    fetch(MARKERS_DIRECTION, {
+                      method: 'GET',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'x-auth':this.state.token
+                      },
+              
+                    }).then((response) => {
+                        //console.warn(response.json())
+                          return response.json()
+                      })
+                      .then((data) => {
+                          console.warn(data)
+                          var markers = []
+                          for (var i = 0; i < data.incidences.length; i++) {
+                              var latitude = data.incidences[i].x
+                              var longitude = data.incidences[i].y
+                              var color = COLORS[0]
+                              var title = data.incidences[i].info
+                              var type=data.incidences[i].type
+                              var images=data.incidences[i].type
+                              markers.push({ location: { latitude, longitude }, id: i, color: color, title: title,type:type,images:images })
+                          }
+          
+                          this.setState({ markers: markers })
+                      }) 
+
             },
-            (error) => this.setState({ error: error.message }),
+            (error) =>  this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
 
           );
-            
+         
 
     }
 
@@ -770,35 +804,45 @@ closeModalVisible(type,active,temporalDescription){
     this.setState({visibleModalCreation:false})
 }
 
-async createPin(active,description){
+ createPin(active,description,arrayImages){
+console.warn(arrayImages)
+var allFiles=[]
+
 
     var allData= new FormData();
     allData.append("info","PRUEBA_T")
     allData.append("type",TEXTS[active])
-    //allData.append("x",(41.38879).toString())
-    //allData.append("y",(2.15899).toString())
     allData.append("x",this.state.latitude.toString())
     allData.append("y",this.state.longitude.toString())
-    allData.append("images","")
-    allData.append("token",this.state.token)
+    for(var i=0;i<arrayImages.length;i++){
+        if(arrayImages[i]!=0)
+        allData.append("images[]",{
+            uri: arrayImages[i],
+                type: 'image/jpeg',
+                name: 'photo.jpg'
+          })
+    }
     fetch(MARKER_CREATION_DIRECTION, {
         method: 'POST',
         headers: {
+          
             'Content-Type': 'multipart/form-data',
+            'x-auth':this.state.token,
+           
         },
         body:allData
 
-      }).then((response) => response.json())
-          .then((responseJson) => {
-            return responseJson;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    console.log(TEXTS[active])
+      }).then((response) => {
+        //console.warn(response.json())
+          return response.json()
+      })
+      .then((data) => {
+          console.warn(data)
+      });
+    console.warn(TEXTS[active])
     const latitude=this.state.latitude;
     const longitude=this.state.longitude;
-    await this.setState({ markers: [...this.state.markers, { location:{latitude,longitude}, id: this.state.markers.length, color: this.manageMarkersInfo(this.state.markers.length)[0], title: this.manageMarkersInfo(this.state.markers.length)[1] + " " + (this.state.markers.length + 1),type:TEXTS[active]}], visibleModalCreation : false })
+     this.setState({ markers: [...this.state.markers, { location:{latitude,longitude}, id: this.state.markers.length, color: this.manageMarkersInfo(this.state.markers.length)[0], title: this.manageMarkersInfo(this.state.markers.length)[1] + " " + (this.state.markers.length + 1),type:TEXTS[active]}], visibleModalCreation : false })
 }
 
 
@@ -876,7 +920,7 @@ manageText(type){
             },
             body:JSON.stringify({
                 user:{
-                username:this.state.name,
+
                 phone:this.state.phone
 
                 }
@@ -884,8 +928,9 @@ manageText(type){
     
           }).then((response) => response.json())
               .then((responseJson) => {
-
+                
                 console.warn(responseJson)
+
               })
               .catch((error) => {
                 console.log(error);
@@ -898,24 +943,35 @@ manageText(type){
     //Called: OnPress button in first screen of register process.
     //Modifies state: NO
 
-    manageVerificationCode(){
-        fetch(SMS_VERIFICATION_DIRECTION, {
+    async saveToken(responseJson){
+        if(responseJson.token!=null){
+            await this.setState({token:responseJson.token})
+            await AsyncStorage.setItem("token",responseJson.token)
+                    
+        }
+
+    }
+
+
+     manageVerificationCode(){
+          fetch(SMS_VERIFICATION_DIRECTION, {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
             },
             body:JSON.stringify({
                 user:{
-                smsCode:this.state.verification,
-                phone:this.state.phone
+                phone:this.state.phone,
+                smsCode:this.state.verificationCode,
+                
                 }
             })
     
-          }).then((response) => response.json())
+          }).then( (response) => response.json())
               .then((responseJson) => {
-                AsyncStorage.setItem("token",responseJson.token)
+                  this.saveToken(responseJson)
                 console.warn(responseJson)
+                 
               })
               .catch((error) => {
                 console.log(error);
@@ -926,60 +982,9 @@ manageText(type){
     //TODO:show initial screen
     manageIntroducePhone() {
         return(
-            <Animated.View animation={"slideOutLeft"} duration={2000} style={{flex:1,backgroundColor:"#fff",justifyContent:"center"}}>
-
-
-                <Text style={{position:"absolute",top:"10%",left:"10%",fontSize:40,color:"#303030",fontWeight:"500",alignSelf:"center"}}>
-                    Bienvenido
-                </Text>
-                <Animatable.Text animation={"swing"} iterationCount="infinite" easing="ease-out" duration={2000} style={{position:"absolute",top:"10%",right:"27%",fontSize:40,color:"#303030",fontWeight:"500",alignSelf:"center"}}>
-                    👋
-                </Animatable.Text>
-                <Text style={{position:"absolute",top:"17%",left:"10%",fontSize:28,color:"gray",fontWeight:"500",alignSelf:"center"}}>
-                    regístrate para continuar
-                </Text>
-
-                <Hoshi
-    label={'Nombre de usuario'}
-    // this is used as active border color
-    borderColor={'#303030'}
-    // active border height
-    borderHeight={3}
-    inputPadding={30}
-    labelStyle={{color:"#303030",fontSize:22,fontWeight:"500",padding:-130}}
-    labelContainerStyle={{shadowOpacity:0,shadowRadius:0,overflow:"hidden",color:"#303030",padding:-130}}
-    inputStyle={{ color: 'gray',shadowOpacity:0 ,overflow:"hidden",fontWeight:"500",fontSize:22}}
-    style={{ overflow:"hidden",borderBottomColor:"#303030",borderBottomWidth:2 ,width:"90%",position:"absolute",alignSelf:"center",top:"28%",right:0,height:"7%",borderRadius:0,fontSize:24,padding:-130}}
-                
-    // this is used to set backgroundColor of label mask.
-    // please pass the backgroundColor of your TextInput container.
-    onChangeText={(name) => this.setState({name})}
-                value={this.state.name}
-  />
-                
-
-  <Hoshi
-    label={'Número de teléfono'}
-    // this is used as active border color
-    borderColor={'#303030'}
-    // active border height
-    borderHeight={3}
-    inputPadding={30}
-    labelStyle={{color:"#303030",fontSize:22,fontWeight:"500",padding:-130}}
-    labelContainerStyle={{shadowOpacity:0,shadowRadius:0,overflow:"hidden",color:"#303030",padding:-130}}
-    inputStyle={{ color: 'gray',shadowOpacity:0 ,overflow:"hidden",fontWeight:"500",fontSize:22}}
-    style={{ overflow:"hidden",borderBottomColor:"#303030",borderBottomWidth:2 ,width:"90%",position:"absolute",alignSelf:"center",top:"48%",right:0,height:"7%",borderRadius:0,fontSize:24,padding:-130}}
-                           
-    // this is used to set backgroundColor of label mask.
-    // please pass the backgroundColor of your TextInput container.
-    onChangeText={(phone) => this.setState({phone})}
-                value={this.state.phone}
-  />
-
-
-
-
-            <Wave
+            <TouchableWithoutFeedback style={{flex:1,backgroundColor:"#00BF6C",justifyContent:"center"}} onPress={()=>Keyboard.dismiss()}>
+<View style={{flex:1,backgroundColor:"#00BF6C"}}>
+<Wave
         ref={ref=>this._waveRect = ref}
         style={{ width: "100%",
     aspectRatio: 1,
@@ -1003,24 +1008,77 @@ manageText(type){
         ]}
         animated={true}
     />
-
-
-
-            {!!this.state.name && !!this.state.phone &&
-                <Button style={{position:"absolute",bottom:"2%",width:"90%",height:"10%",borderWidth:0,alignSelf:"center",justifyContent:"center"}} onPress={()=>this.intermediateUser()}>
-                <Text style={{position:"absolute",bottom:"30%",alignSelf:"center",fontSize:25,fontWeight:"500",color:"#303030"}}>
-                    Siguiente
+                <Text style={{position:"absolute",top:"13%",fontSize:32,color:"#fff",fontWeight:"500",alignSelf:"center"}}>
+                    Bienvenid@ a
                 </Text>
-                </Button>
-            }
-            <View style={{width:"80%",alignSelf:"center",position:"absolute",bottom:"28%",height:"5%",justifyContent:"center",alignItems:"center",flexDirection:"row"}}>
 
-                <Text style={{position:"absolute",left:0,fontSize:14,color:"gray",width:"100%",textAlign:"left",height:"80%"}}>
+                <Text style={{position:"absolute",top:"20%",fontSize:40,color:"#fff",fontWeight:"600",alignSelf:"center"}}>
+                    BETTERWORLD
+                </Text>
+                { this.state.userCreated==1 && 
+                <Text style={{position:"absolute",top:"35%",fontSize:20,color:"#fff",fontWeight:"500",alignSelf:"center"}}>
+                    Introduce el número de verificación
+                </Text>
+                }
+                { this.state.userCreated==0 && 
+                <Text style={{position:"absolute",top:"35%",fontSize:20,color:"#fff",fontWeight:"500",alignSelf:"center"}}>
+                    Introduce tu número de teléfono
+                </Text>
+                }
+                { this.state.userCreated==0 &&               
+                <TextInput
+    placeholder={'+34 123123123'}
+    // this is used as active border color
+    selectionColor={'#303030'}
+    keyboardType={"numeric"}
+    // active border height
+    borderHeight={3}
+    inputPadding={30}
+    style={{shadowRadius:6,shadowOpacity:0.4,shadowOffset:{height:2}, fontSize:22 ,width:"85%",backgroundColor:"#fff",position:"absolute",textAlign:"center" ,alignSelf:"center",top:"40%",height:"8.5%",borderRadius:50,}}
+                
+    // this is used to set backgroundColor of label mask.
+    // please pass the backgroundColor of your TextInput container.
+    onChangeText={(phone) => this.setState({phone})}
+                value={this.state.phone}
+  />
+                }
+  { this.state.userCreated==1 &&
+  <TextInput
+    placeholder={'123456'}
+    // this is used as active border color
+    selectionColor={'#303030'}
+    keyboardType={"numeric"}
+    // active border height
+    borderHeight={3}
+    inputPadding={30}
+    style={{shadowRadius:6,shadowOpacity:0.4,shadowOffset:{height:2}, fontSize:22 ,width:"85%",backgroundColor:"#fff",position:"absolute",textAlign:"center" ,alignSelf:"center",top:"40%",height:"8.5%",borderRadius:50,}}
+                
+    // this is used to set backgroundColor of label mask.
+    // please pass the backgroundColor of your TextInput container.
+    onChangeText={(verificationCode) => this.setState({verificationCode})}
+                value={this.state.verificationCode}
+  />
+  }
+  { this.state.userCreated==0  &&
+  <Button isDisabled={this.state.phone.length==0} style={{shadowRadius:6,shadowOpacity:0.4,shadowOffset:{height:2},alignSelf:"center",position:"absolute",bottom:"38%",width:"40%",height:"7%",backgroundColor:"#fff",borderWidth:0,borderRadius:60}} onPress={()=>this.intermediateUser()}>
+      <Text style={{color:"#303030",fontSize:20,fontWeight:"500"}}>
+      Siguiente
+      </Text>
+  </Button>
+  }
+  { this.state.userCreated==1 &&
+  <Button isDisabled={this.state.verificationCode.length!=6} style={{shadowRadius:6,shadowOpacity:0.4,shadowOffset:{height:2},alignSelf:"center",position:"absolute",bottom:"38%",width:"40%",height:"7%",backgroundColor:"#fff",borderWidth:0,borderRadius:60}} onPress={()=>this.intermediateVerification()}>
+  <Text style={{color:"#303030",fontSize:20,fontWeight:"500"}}>
+      Confirmar
+      </Text>
+  </Button>
+  }
+
+            <Text style={{alignSelf:"center",position:"absolute",bottom:"32%",fontSize:14,color:"#fff",width:"100%",textAlign:"center"}}>
                     Al registrarte aceptas los términos y condiciones.
                 </Text>
                 </View>
-
-            </Animated.View>
+            </TouchableWithoutFeedback>
         )
 
     }
@@ -1031,9 +1089,9 @@ intermediateUser(){
 
 }
 
-intermediateVerification(){
-    this.manageVerificationCode();
-    this.setState({userCreated:2})
+async intermediateVerification(){
+   await  this.manageVerificationCode();
+   await this.setState({showRealApp:false, userCreated:2})
 }
 
     manageIntroduceVerificationCode() {
@@ -1158,6 +1216,7 @@ intermediateVerification(){
         return (
             <View style={styles.container}>
                
+               {!this.state.visibleModalCreation && !this.state.visibleModalDetails  &&
                 <ClusteredMapView
                 customMapStyle={(new Date().getHours()>14 ||new Date().getHours()<7)? NIGHT_MODE: DAY_MODE}
                // provider={PROVIDER_GOOGLE}
@@ -1180,14 +1239,12 @@ intermediateVerification(){
                     edgePadding={{ top: 10, left: 10, bottom: 10, right: 10} }
                 >
                 </ClusteredMapView>
-
+               }
             </View>
         );
                 }
     else
-    if(this.state.userCreated==1)
-    return this.manageIntroduceVerificationCode();
-    else
+
     return this.manageIntroducePhone();
     }
 
@@ -1221,13 +1278,6 @@ intermediateVerification(){
 
         this.setState({arrayImages:actualArrayImages})
     }
-
-    manageBottomBar(index){
-        if(index==1)
-        this.setState
-
-    }
-
 
     flip() {
         this.setState({
@@ -1264,6 +1314,30 @@ intermediateVerification(){
       _renderItem = (item) => {
         return (
           <View style={{flex:1,justifyContent:"center",backgroundColor:item.backgroundColor}} >
+          <Wave
+        ref={ref=>this._waveRect = ref}
+        style={{ width: "100%",
+    aspectRatio: 1,
+    borderRadius: 10,
+    overflow: 'hidden',
+    position: "absolute",
+    bottom: 0,
+    zIndex: 0,
+
+    shadowOpacity: 0,
+    shadowRadius: 30,
+    shadowOffset: { width: 3, height: 0 }}}
+        H={hp("17%")}
+        waveParams={[
+            {A: 20, T: 480, fill: 'rgba(0,0,0,0.01)'},
+            {A: 40, T: 440, fill: 'rgba(0,0,0,0.01)'},
+            {A: 25, T: 400, fill: 'rgba(0,0,0,0.02)'},
+            {A: 10, T: 600, fill: 'rgba(0,0,0,0.02)'},
+            {A: 45, T: 720, fill: 'rgba(0,0,0,0.02)'},
+            {A: 65, T: 400, fill: 'rgba(0,0,0,0.02)'},
+        ]}
+        animated={true}
+    />
             <Text style={{position:"absolute",top:"10%",alignSelf:"center",color:"#fff",fontWeight:"500",fontSize:40,width:"80%",textAlign:"center"}} >{item.title}</Text>
            <View style={{width:wp("70%"),height:wp("70%"),borderRadius:wp("40%"),backgroundColor:"rgba(255,255,255,0.2)",position:"absolute",top:"25%",alignSelf:"center",justifyContent:"center",alignItems:"center"}}>
             <Image style={{width:"70%",height:"70%",resizeMode:"contain",alignSelf:"center"}} source={item.image} />
@@ -1395,16 +1469,11 @@ intermediateVerification(){
     <Text style={{position:"absolute",top:"48%",left:"8%",fontSize:32,fontWeight:"600",alignSelf:"center",color:"#303030"}}>
     5
     </Text>
+
     <Text style={{position:"absolute",top:"55%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
-    Nombre de usuario
-    </Text>
-    <Text style={{position:"absolute",top:"60%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"gray"}}>
-   {this.state.name}
-    </Text>
-    <Text style={{position:"absolute",top:"67%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"#303030"}}>
     Número de teléfono
     </Text>
-    <Text style={{position:"absolute",top:"72%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"gray"}}>
+    <Text style={{position:"absolute",top:"60%",left:"8%",fontSize:20,fontWeight:"500",alignSelf:"center",color:"gray"}}>
    {this.state.phone}
     </Text>
     <Text style={{position:"absolute",top:"85%",left:"8%",fontSize:14,fontWeight:"500",alignSelf:"center",color:"gray"}}>
@@ -1416,7 +1485,7 @@ intermediateVerification(){
 
         )
         else 
-        return  <AppIntroSlider nextLabel={"Siguiente"} doneLabel={"Vamos"} showSkipButton skipLabel={"Saltar"} renderItem={this._renderItem} slides={slides} onDone={this._onDone}/>
+        return  <AppIntroSlider nextLabel={"Siguiente"} doneLabel={"Empezar"} showSkipButton skipLabel={"Saltar"} renderItem={this._renderItem} slides={slides} onDone={this._onDone}/>
         
     }
 }

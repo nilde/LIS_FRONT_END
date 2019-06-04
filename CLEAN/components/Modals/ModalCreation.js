@@ -135,7 +135,7 @@ export default class ModalCreation extends Component {
                         <Image source={require("../../images/Path.png")} style={{ position: "absolute", bottom: "-75%", resizeMode: "contain", width: wp("100%"), height: hp("100%"), tintColor: "#fff" }} />
 
 
-                        <Button isDisabled={this.state.active < 0} style={{ alignSelf: "center", position: "absolute", bottom: "4%", width: "90%", height: "12%", backgroundColor: COLORS[this.state.active], borderWidth: 0, borderRadius: 50, shadowColor: COLORS[this.state.active], shadowRadius: 8, shadowOpacity: 0.2, shadowOffset: { height: 1 } }} onPress={() => { this.setState({ active: 0,entries:[0,0,0,0],counterImages:0}); this.props.createPin(this.state.active, this.state.description) }}>
+                        <Button isDisabled={this.state.active < 0} style={{ alignSelf: "center", position: "absolute", bottom: "4%", width: "90%", height: "12%", backgroundColor: COLORS[this.state.active], borderWidth: 0, borderRadius: 50, shadowColor: COLORS[this.state.active], shadowRadius: 8, shadowOpacity: 0.2, shadowOffset: { height: 1 } }} onPress={() => { this.setState({ active: 0,entries:[0,0,0,0],counterImages:0}); this.props.createPin(this.state.active, this.state.description,this.state.entries) }}>
                             <Text style={{ color: "#fff", fontWeight: "600", alignSelf: "center", fontSize: 23 }}>
                                 Crear incidencia
             </Text>
